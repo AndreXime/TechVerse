@@ -24,7 +24,9 @@ export default function Navbar() {
 
     return (
         <header className="flex justify-between items-center mb-16">
-            <h1 className="text-3xl font-bold font-chakra text-white tracking-widest">TechVerse</h1>
+            <Link href={'/'}>
+                <h1 className="text-3xl font-bold font-chakra text-white tracking-widest">TechVerse</h1>
+            </Link>
             <div className="flex items-center gap-8">
                 <nav className="hidden md:flex space-x-8">
                     {links.map(({ href, label }) => (

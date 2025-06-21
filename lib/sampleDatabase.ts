@@ -1,4 +1,4 @@
-const categories = {
+const categories: { [key: string]: CategoryType } = {
     'inteligencia-artificial': {
         name: 'INTELIGÊNCIA ARTIFICIAL',
         link: 'inteligencia-artificial',
@@ -17,6 +17,18 @@ const categories = {
     },
 };
 
+const authors: { [key: string]: AuthorType } = {
+    andre: {
+        name: 'André',
+        imageUrl: 'https://placehold.co/150x150/0d0c1d/ec4899?text=AD',
+        description: 'Minha descrição',
+        jobRole: 'Desenvolvedor e Fundador do Blog',
+        linkedin: '#',
+        genericSocial: 'andreximenes.xyz',
+        github: '#',
+    },
+};
+
 const posts: PostType[] = [
     // INTELIGÊNCIA ARTIFICIAL
     {
@@ -28,7 +40,7 @@ const posts: PostType[] = [
       <p>Redes neurais auxiliam diagnósticos médicos.</p>
     `,
         tags: ['Deep Learning', 'Medicina', 'Saúde'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-01-15'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/ec4899?text=IA',
         link: 'ia-em-saude-diagnosticos-precisos',
@@ -42,7 +54,7 @@ const posts: PostType[] = [
       <p>Entenda decisões de modelos de IA.</p>
     `,
         tags: ['XAI', 'Transparência', 'Machine Learning'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-02-02'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/ec4899?text=IA',
         link: 'redes-neurais-explicaveis',
@@ -56,7 +68,7 @@ const posts: PostType[] = [
       <p>Discuta ética e viés em IA.</p>
     `,
         tags: ['Ética', 'Vieses', 'Governança'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-03-10'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/ec4899?text=IA',
         link: 'ia-e-etica-limites-necessarios',
@@ -70,7 +82,7 @@ const posts: PostType[] = [
       <p>Chatbots com respostas mais naturais.</p>
     `,
         tags: ['NLP', 'Voice Cloning', 'UX'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-04-05'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/ec4899?text=IA',
         link: 'chatbots-humanizados',
@@ -86,7 +98,7 @@ const posts: PostType[] = [
       <p>Benchmark de velocidade e capacidade.</p>
     `,
         tags: ['NVMe', 'Armazenamento', 'Benchmark'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-02-20'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/22d3ee?text=Hardware',
         link: 'ssd-nvme-de-8tb-vale-a-pena',
@@ -100,7 +112,7 @@ const posts: PostType[] = [
       <p>Visão geral de CPUs RISC-V modernas.</p>
     `,
         tags: ['RISC‑V', 'CPU', 'Open Source'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-03-15'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/22d3ee?text=Hardware',
         link: 'processadores-risc-v-em-alta',
@@ -114,7 +126,7 @@ const posts: PostType[] = [
       <p>Teste de latência e durabilidade.</p>
     `,
         tags: ['3D XPoint', 'Memória', 'Data Center'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-01-30'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/22d3ee?text=Hardware',
         link: 'memoria-3d-xpoint-proxima-geracao',
@@ -128,7 +140,7 @@ const posts: PostType[] = [
       <p>Principais recursos de displays 8K.</p>
     `,
         tags: ['8K', 'Display', 'Tecnologia'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-04-18'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/22d3ee?text=Hardware',
         link: 'monitores-8k-experiencia-visual-total',
@@ -144,7 +156,7 @@ const posts: PostType[] = [
       <p>Automatize deploys com Git como fonte.</p>
     `,
         tags: ['GitOps', 'CI/CD', 'Kubernetes'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-03-01'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/8b5cf6?text=DevOps',
         link: 'gitops-em-acao',
@@ -158,7 +170,7 @@ const posts: PostType[] = [
       <p>Comparação de recursos e desempenho.</p>
     `,
         tags: ['Kubernetes', 'Nomad', 'Orquestração'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-02-25'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/8b5cf6?text=DevOps',
         link: 'kubernetes-vs-nomad',
@@ -172,7 +184,7 @@ const posts: PostType[] = [
       <p>Templates simples para pipelines robustas.</p>
     `,
         tags: ['CI/CD', 'Automação', 'Pipelines'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-04-01'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/8b5cf6?text=DevOps',
         link: 'ci-cd-sem-dor-melhores-praticas',
@@ -186,7 +198,7 @@ const posts: PostType[] = [
       <p>IaC: versões e repetibilidade de infra.</p>
     `,
         tags: ['IaC', 'Terraform', 'Ansible'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-03-22'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/8b5cf6?text=DevOps',
         link: 'infraestrutura-como-codigo',
@@ -202,7 +214,7 @@ const posts: PostType[] = [
       <p>Software moderno em hardware retrô.</p>
     `,
         tags: ['Amstrad', 'Retro', 'Demoscene'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-02-10'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/ec4899?text=Retrowave',
         link: 'amstrad-cpc-revival',
@@ -216,7 +228,7 @@ const posts: PostType[] = [
       <p>Fusão de sons 8-bit e eletrônicos.</p>
     `,
         tags: ['Chiptune', 'Música', 'EDM'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-04-12'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/ec4899?text=Retrowave',
         link: 'musica-chiptune-atualizada',
@@ -230,7 +242,7 @@ const posts: PostType[] = [
       <p>Qualidade vintage em serviços modernos.</p>
     `,
         tags: ['Cassete', 'Vintage', 'Streaming'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-03-05'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/ec4899?text=Retrowave',
         link: 'fitas-cassete-digitais',
@@ -244,10 +256,10 @@ const posts: PostType[] = [
       <p>Painéis e demonstrações de arte em ANSI.</p>
     `,
         tags: ['ANSI', 'ASCII Art', 'Retro'],
-        author: 'André',
+        author: authors['andre'],
         createdAt: new Date('2025-01-25'),
         imageUrl: 'https://placehold.co/600x400/0d0c1d/ec4899?text=Retrowave',
         link: 'arte-ansi-beautiful-text',
     },
 ];
-export default posts;
+export { posts, categories, authors };

@@ -39,17 +39,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     );
 }
 
-function FullPost({
-    title,
-    description,
-    tags,
-    category,
-    createdAt,
-    content,
-    imageUrl,
-    link,
-    author = 'Desconhecido',
-}: PostType) {
+function FullPost({ title, description, tags, category, createdAt, content, imageUrl, link, author }: PostType) {
     const formattedDate = createdAt
         ? new Intl.DateTimeFormat('pt-BR', {
               day: '2-digit',
@@ -67,7 +57,7 @@ function FullPost({
                     <span>
                         Por{' '}
                         <Link href="#" className="text-white hover:text-cyan-400">
-                            {author}
+                            {author.name}
                         </Link>
                     </span>
                     <span className="mx-2">|</span>
@@ -92,6 +82,20 @@ function FullPost({
                     <p className="text-gray-300">Estranho... Parece que esse conteudo não tem conteudo.</p>
                 )}
             </div>
+
+            <section className="mt-16 p-6 border border-pink-500/30 rounded-lg glass-effect flex items-center gap-6">
+                <Image
+                    width={800}
+                    height={800}
+                    src={author.imageUrl}
+                    alt={'Avatar de ' + author.name}
+                    className="w-24 h-24 rounded-full border-2 border-pink-500/50"
+                />
+                <div>
+                    <h4 className="font-chakra text-xl text-white">SOBRE {author.name.toUpperCase()}</h4>
+                    <p className="text-sm mt-2">{author.description}</p>
+                </div>
+            </section>
 
             <footer className="mt-12 pt-8 border-t border-gray-700/50">
                 {tags?.length > 0 && (

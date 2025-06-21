@@ -1,4 +1,4 @@
-import posts from './sampleDatabase';
+import { posts, authors } from './sampleDatabase';
 
 export function getHomePosts(): PostType[] {
     return posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()).slice(0, 4);
@@ -56,4 +56,8 @@ export function getPostsBySearchAttempt(input: string) {
             post.description.toLowerCase().includes(term) ||
             post.category.name.toLowerCase().includes(term)
     );
+}
+
+export function getAllAuthors() {
+    return authors;
 }

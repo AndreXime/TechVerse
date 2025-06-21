@@ -4,10 +4,10 @@ interface PostType {
     title: string;
     description: string;
     tags: string[];
-    category: CategoryType;
     createdAt: Date;
     content: string;
-    author: string;
+    category: CategoryType;
+    author: AuthorType;
 
     link: string;
     imageUrl: string;
@@ -16,4 +16,14 @@ interface PostType {
 interface CategoryType {
     name: string;
     link: string;
+}
+
+interface AuthorType {
+    name: string;
+    imageUrl: string;
+    description: string;
+    jobRole: string;
+    linkedin: string;
+    github: string;
+    genericSocial: string;
 }
