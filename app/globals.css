@@ -1,26 +1,79 @@
-@import "tailwindcss";
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@import 'tailwindcss';
+@config '../tailwind.config.ts';
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    background-color: #0d0c1d;
+    font-family: 'Inter', sans-serif;
+    color: #a9a9c2;
+    background-image: linear-gradient(rgba(118, 59, 234, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(118, 59, 234, 0.1) 1px, transparent 1px);
+    background-size: 2rem 2rem;
+}
+
+@utility font-chakra {
+    font-family: 'Chakra Petch', sans-serif;
+}
+
+/* Efeito de brilho para bordas */
+@utility border-glow-cyan {
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.3), 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+/* Efeito de "glassmorphism" para os cards */
+@utility glass-effect {
+    background: rgba(23, 22, 48, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Estilos para pagina inicial*/
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes glow-breathe {
+    0%,
+    100% {
+        text-shadow: 0 0 8px rgba(0, 255, 255, 0.6), 0 0 12px rgba(0, 255, 255, 0.4);
+    }
+    50% {
+        text-shadow: 0 0 16px rgba(0, 255, 255, 1), 0 0 24px rgba(0, 255, 255, 0.7);
+    }
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.animate-glow-breathe {
+    animation: glow-breathe 4s ease-in-out infinite;
+}
+
+/* Estilo para garantir que as animações iniciem invisíveis */
+.content-section {
+    opacity: 0;
+}
+
+/* Estilização do conteúdo do post */
+.post-content h3 {
+    @apply font-chakra text-2xl text-white mt-8 mb-4;
+}
+.post-content p {
+    @apply mb-4 leading-relaxed;
+}
+.post-content a {
+    @apply text-cyan-400 text-glow-cyan hover:underline;
+}
+.post-content blockquote {
+    @apply border-l-4 border-pink-500 pl-4 py-2 my-6 italic text-gray-400;
+}
+.post-content ul {
+    @apply list-disc list-inside mb-4 pl-4;
 }
