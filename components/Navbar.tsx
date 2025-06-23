@@ -12,12 +12,13 @@ export default function Navbar() {
     function handleSubmit(event: React.FormEvent) {
         event.preventDefault();
         if (query.trim()) {
-            router.push(`/buscar?s=${encodeURIComponent(query.trim())}`);
+            router.push(`/posts?s=${encodeURIComponent(query.trim())}`);
         }
     }
 
     const links = [
         { href: '/', label: 'Início' },
+        { href: '/posts', label: 'Posts' },
         { href: '/categorias', label: 'Categorias' },
         { href: '/sobre', label: 'Sobre' },
     ];

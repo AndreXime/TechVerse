@@ -1,11 +1,11 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import PreviewPost from '@/components/PreviewPost';
-import { getHomePosts } from '@/lib/getPosts';
+import { getHomePosts } from '@/lib/postsService';
 import Image from 'next/image';
 import Link from 'next/link';
 
-export default function Home() {
+export default async function Home() {
     const posts = getHomePosts();
 
     return (
@@ -33,8 +33,8 @@ export default function Home() {
                     </h3>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {posts.slice(1).map((post, index) => (
-                            <PreviewPost key={index} post={post} colorKey="pink" />
+                        {posts.slice(1).map((post) => (
+                            <PreviewPost key={post.id} post={post} colorKey="pink" />
                         ))}
                     </div>
                 </section>
@@ -45,7 +45,7 @@ export default function Home() {
     );
 }
 
-function FeaturedPost({ category, title, description, tags, imageUrl, link }: PostType) {
+function FeaturedPost({ category, title, description, tags, imageUrl, slug }: PostType) {
     return (
         <>
             <div className="border-l-2 border-cyan-500 pl-6">
@@ -63,7 +63,7 @@ function FeaturedPost({ category, title, description, tags, imageUrl, link }: Po
                     ))}
                 </div>
                 <Link
-                    href={link}
+                    href={'/posts/' + slug}
                     className="font-chakra inline-block bg-transparent border-2 border-cyan-400 text-cyan-400 text-glow-cyan py-3 px-8 rounded-md hover:bg-cyan-400 hover:text-gray-900 hover:shadow-lg hover:shadow-cyan-400/30 transition-all duration-300"
                 >
                     DECODIFICAR ARTIGO

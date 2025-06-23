@@ -2,11 +2,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getAllAuthors } from '@/lib/getPosts';
-import { FaGithub, FaGlobe, FaLinkedinIn, FaTwitter } from 'react-icons/fa';
+import { getAllAuthors } from '@/lib/postsService';
+import { FaGithub, FaGlobe, FaLinkedinIn } from 'react-icons/fa';
 
-export default function SobrePage() {
+export default async function SobrePage() {
     const authors = getAllAuthors();
+
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <Navbar />

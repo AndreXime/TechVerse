@@ -2,7 +2,7 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import PreviewPost from '@/components/PreviewPost';
 import { colorClasses, colorsKeys } from '@/lib/colors';
-import { getAllPostsByCategories } from '@/lib/getPosts';
+import { getAllPostsByCategories } from '@/lib/postsService';
 
 export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
     const posts = getAllPostsByCategories((await params).slug);

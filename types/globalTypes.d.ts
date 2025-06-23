@@ -3,20 +3,22 @@ interface PostType {
 
     title: string;
     description: string;
-    tags: string[];
     createdAt: Date;
     content: string;
+    tags: TagType[];
     category: CategoryType;
     author: AuthorType;
 
-    link: string;
+    slug: string;
     imageUrl: string;
 }
 
 interface CategoryType {
     name: string;
-    link: string;
+    slug: string;
 }
+
+type TagType = string;
 
 interface AuthorType {
     name: string;

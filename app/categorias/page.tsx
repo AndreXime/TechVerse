@@ -1,11 +1,11 @@
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getSamplePostsByCategories } from '@/lib/getPosts';
+import { getSamplePostsByCategories } from '@/lib/postsService';
 import { colorsKeys, colorClasses } from '@/lib/colors';
 import PreviewPost from '@/components/PreviewPost';
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
     const postsByCategories = getSamplePostsByCategories();
 
     return (
@@ -39,7 +39,7 @@ function CategoryPosts({
     posts,
     color,
 }: {
-    category: { name: string; link: string };
+    category: CategoryType;
     posts: PostType[];
     color: keyof typeof colorClasses;
 }) {
@@ -49,7 +49,7 @@ function CategoryPosts({
             <header className={`flex justify-between items-baseline mb-8 pb-2 border-b-2 ${c.border}`}>
                 <h2 className={`font-chakra text-3xl ${c.text} ${c.glow}`}>{category.name}</h2>
                 <Link
-                    href={'/categorias/' + category.link}
+                    href={'/categorias/' + category.slug}
                     className="font-chakra text-cyan-400 hover:text-white transition-colors duration-300"
                 >
                     Ver mais &gt;

@@ -35,7 +35,7 @@ export default function PreviewPost({ post, colorKey }: { post: PostType; colorK
                     ))}
                 </div>
                 <Link
-                    href={post.link}
+                    href={'/posts/' + post.slug}
                     className={`font-chakra mt-auto text-center ${color.bg} border ${color.borderNormal} ${color.textBtn} py-2 px-4 rounded-md ${color.bgHover} hover:text-white transition-colors duration-300`}
                 >
                     LER ARTIGO
