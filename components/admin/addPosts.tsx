@@ -1,4 +1,8 @@
+'use client';
+import { useAdminData } from '@/lib/admin/admin.context';
+
 export default function AddPosts() {
+    const { authors, categories } = useAdminData();
     return (
         <>
             <h2 className="font-chakra text-4xl text-white mb-8 tracking-wider">Adicionar Nova Transmissão</h2>
@@ -23,6 +27,7 @@ export default function AddPosts() {
                         </label>
                         <textarea
                             id="description"
+                            rows={2}
                             name="description"
                             className="form-textarea"
                             placeholder="Pequeno resumo para os cards de preview..."
@@ -58,9 +63,11 @@ export default function AddPosts() {
                             Autor
                         </label>
                         <select id="author" name="author" className="form-select">
-                            <option>Jane Doe</option>
-                            <option>Ryan Cortez</option>
-                            <option>Akira</option>
+                            {authors.map((author) => (
+                                <option key={author.name} value={author.name}>
+                                    {author.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="form-card">
@@ -68,11 +75,11 @@ export default function AddPosts() {
                             Categoria
                         </label>
                         <select id="category" name="category" className="form-select">
-                            <option>Hardware</option>
-                            <option>DevOps</option>
-                            <option>Retrowave</option>
-                            <option>Inteligência Artificial</option>
-                            <option>Reviews</option>
+                            {categories.map((category) => (
+                                <option key={category.slug} value={category.slug}>
+                                    {category.name}
+                                </option>
+                            ))}
                         </select>
                     </div>
                     <div className="form-card">

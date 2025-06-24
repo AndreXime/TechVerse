@@ -1,6 +1,9 @@
+'use client';
+import { useAdminData } from '@/lib/admin/admin.context';
 import { Pencil, Trash } from 'lucide-react';
 
 export default function Categories() {
+    const { categories } = useAdminData();
     return (
         <>
             <h2 className="font-chakra text-4xl text-white mb-8 tracking-wider">Gerenciar Categorias</h2>
@@ -18,19 +21,23 @@ export default function Categories() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td className="text-white font-bold">Reviews</td>
-                                    <td>reviews</td>
-                                    <td>15</td>
-                                    <td className="flex gap-3">
-                                        <a href="#" className="text-cyan-400 hover:text-white" title="Editar">
-                                            <Pencil />
-                                        </a>
-                                        <a href="#" className="text-pink-400 hover:text-white" title="Excluir">
-                                            <Trash />
-                                        </a>
-                                    </td>
-                                </tr>
+                                {categories.map((category) => (
+                                    <tr key={category.slug}>
+                                        <td className="text-white font-bold">{category.name}</td>
+                                        <td>{category.slug}</td>
+                                        <td>15</td>
+                                        <td>
+                                            <span className="flex items-center justify-start h-full gap-3">
+                                                <a href="#" className="text-cyan-400 hover:text-white" title="Editar">
+                                                    <Pencil />
+                                                </a>
+                                                <a href="#" className="text-pink-400 hover:text-white" title="Excluir">
+                                                    <Trash />
+                                                </a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

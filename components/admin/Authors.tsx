@@ -1,6 +1,10 @@
+'use client';
+import { useAdminData } from '@/lib/admin/admin.context';
+import { Pencil, Trash } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Authors() {
+    const { authors } = useAdminData();
     return (
         <>
             <h2 className="font-chakra text-4xl text-white mb-8 tracking-wider">Gerenciar Autores</h2>
@@ -18,27 +22,31 @@ export default function Authors() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <Image
-                                            width={800}
-                                            height={800}
-                                            src="https://placehold.co/150x150/0d0c1d/ec4899?text=JD"
-                                            alt="Avatar"
-                                            className="w-12 h-12 rounded-full object-cover"
-                                        />
-                                    </td>
-                                    <td className="text-white font-bold">Jane Doe</td>
-                                    <td>Editora-Chefe & Futurista</td>
-                                    <td className="flex gap-3">
-                                        <a href="#" className="text-cyan-400 hover:text-white" title="Editar">
-                                            <i className="fas fa-pencil-alt"></i>
-                                        </a>
-                                        <a href="#" className="text-pink-400 hover:text-white" title="Excluir">
-                                            <i className="fas fa-trash-alt"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                {authors.map((author) => (
+                                    <tr key={author.name}>
+                                        <td>
+                                            <Image
+                                                width={800}
+                                                height={800}
+                                                src={author.imageUrl}
+                                                alt="Avatar"
+                                                className="w-12 h-12 rounded-full object-cover"
+                                            />
+                                        </td>
+                                        <td className="text-white font-bold">{author.name}</td>
+                                        <td>{author.jobRole}</td>
+                                        <td>
+                                            <span className="flex items-center justify-start h-full gap-3">
+                                                <a href="#" className="text-cyan-400 hover:text-white" title="Editar">
+                                                    <Pencil />
+                                                </a>
+                                                <a href="#" className="text-pink-400 hover:text-white" title="Excluir">
+                                                    <Trash />
+                                                </a>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>

@@ -3,10 +3,32 @@ import AddPosts from '@/components/admin/addPosts';
 import AllPosts from '@/components/admin/AllPosts';
 import Authors from '@/components/admin/Authors';
 import Categories from '@/components/admin/Categories';
-import Tags from '@/components/admin/Tags';
 import { LogoutAdmin } from '@/lib/admin/actions/authAdmin';
-import { File, Folder, LogOutIcon, PlusCircle, Tags as TagIcon, Users } from 'lucide-react';
+import { File, Folder, LogOutIcon, PlusCircle, Users } from 'lucide-react';
 import { useState } from 'react';
+
+const navButtons = [
+    {
+        label: 'Adicionar Post',
+        tab: 'AddPosts',
+        Icon: PlusCircle,
+    },
+    {
+        label: 'Todos os Posts',
+        tab: 'AllPosts',
+        Icon: File,
+    },
+    {
+        label: 'Categorias',
+        tab: 'Categories',
+        Icon: Folder,
+    },
+    {
+        label: 'Autores',
+        tab: 'Authors',
+        Icon: Users,
+    },
+];
 
 export default function DashboardServer() {
     const [Tab, setTab] = useState('AddPosts');
@@ -19,8 +41,6 @@ export default function DashboardServer() {
                 return <Authors />;
             case 'Categories':
                 return <Categories />;
-            case 'Tags':
-                return <Tags />;
             default:
                 return <AddPosts />;
         }
@@ -35,46 +55,20 @@ export default function DashboardServer() {
                 </header>
                 <nav className="flex-grow">
                     <ul className="space-y-3">
-                        <li>
-                            <button
-                                onClick={() => setTab('AddPosts')}
-                                className="w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors bg-cyan-500/10 text-cyan-300"
-                            >
-                                <PlusCircle className="w-6 text-center" /> Adicionar Post
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                onClick={() => setTab('AllPosts')}
-                                className="w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors hover:bg-cyan-500/10 hover:text-cyan-300"
-                            >
-                                <File className="w-6 text-center" /> Todos os Posts
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                onClick={() => setTab('Categories')}
-                                className="w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors hover:bg-cyan-500/10 hover:text-cyan-300"
-                            >
-                                <Folder className="w-6 text-center" /> Categorias
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                onClick={() => setTab('Tags')}
-                                className="w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors hover:bg-cyan-500/10 hover:text-cyan-300"
-                            >
-                                <TagIcon className="w-6 text-center" /> Tags
-                            </button>
-                        </li>
-                        <li>
-                            <button
-                                onClick={() => setTab('Authors')}
-                                className="w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors hover:bg-cyan-500/10 hover:text-cyan-300"
-                            >
-                                <Users className="w-6 text-center" /> Autores
-                            </button>
-                        </li>
+                        {navButtons.map(({ Icon, tab, label }) => (
+                            <li key={tab}>
+                                <button
+                                    onClick={() => setTab(tab)}
+                                    className={`w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors ${
+                                        Tab === tab
+                                            ? 'bg-cyan-500/10 text-cyan-300'
+                                            : 'hover:bg-cyan-500/10 hover:text-cyan-300'
+                                    }`}
+                                >
+                                    <Icon className="w-6 text-center" /> {label}
+                                </button>
+                            </li>
+                        ))}
                         <li>
                             <form action={LogoutAdmin}>
                                 <button

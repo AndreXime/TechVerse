@@ -1,6 +1,8 @@
+'use client';
+import { useAdminData } from '@/lib/admin/admin.context';
 import { Pencil, Trash } from 'lucide-react';
-
 export default function AllPosts() {
+    const { posts } = useAdminData();
     return (
         <>
             <h2 className="font-chakra text-4xl text-white mb-8 tracking-wider">Todas as Transmissões</h2>
@@ -18,26 +20,31 @@ export default function AllPosts() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td className="text-white font-bold">O Fim do DevOps?</td>
-                            <td>Jane Doe</td>
-                            <td>DevOps</td>
-                            <td>
-                                <div className="flex flex-wrap gap-1">
-                                    <span className="tag-badge">NoOps</span>
-                                    <span className="tag-badge">AIOps</span>
-                                </div>
-                            </td>
-                            <td>2024-05-15</td>
-                            <td className="flex gap-4">
-                                <a href="#" className="text-cyan-400 hover:text-white" title="Editar">
-                                    <Pencil />
-                                </a>
-                                <a href="#" className="text-pink-400 hover:text-white" title="Excluir">
-                                    <Trash />
-                                </a>
-                            </td>
-                        </tr>
+                        {posts.map((post) => (
+                            <tr key={post.id}>
+                                <td className="text-white font-bold">{post.title}</td>
+                                <td>{post.author.name}</td>
+                                <td>{post.category.name}</td>
+                                <td>
+                                    <div className="flex flex-wrap gap-1">
+                                        {post.tags.map((tag) => (
+                                            <span key={tag} className="tag-badge">
+                                                {tag}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </td>
+                                <td>{post.createdAt.toLocaleDateString()}</td>
+                                <td className="flex gap-4">
+                                    <button className="text-cyan-400 hover:text-white" title="Editar">
+                                        <Pencil />
+                                    </button>
+                                    <button className="text-pink-400 hover:text-white" title="Excluir">
+                                        <Trash />
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>

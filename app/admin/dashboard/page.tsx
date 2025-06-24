@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 import DashboardClient from './pageClient';
-import { authors, categories, posts } from '@/lib/database/sampleDatabase';
+import { authors, categories, posts, tags } from '@/lib/database/sampleDatabase';
 import { AdminProvider } from '@/lib/admin/admin.context';
 
 export default async function DashboardServer() {
@@ -18,7 +18,7 @@ export default async function DashboardServer() {
         }
 
         return (
-            <AdminProvider authorsServer={authors} categoriesServer={categories} postsServer={posts}>
+            <AdminProvider authorsServer={authors} categoriesServer={categories} postsServer={posts} tagsServer={tags}>
                 <DashboardClient />
             </AdminProvider>
         );
