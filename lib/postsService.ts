@@ -1,52 +1,76 @@
-import { posts, authors } from './database/sampleDatabase';
+import { cacheFn } from './cacheWrap';
+import database from './database';
 
-export function getHomePosts(): PostType[] {
-    return posts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()).slice(0, 4);
-}
+export const getHomePosts = cacheFn(async () => {
+    return database.post.findMany({
+        orderBy: { createdAt: 'desc' },
+        take: 4,
+        include: { category: true, author: true },
+    });
+}, 'home-posts');
 
-export function getPostBySlug(slug: string): PostType | undefined {
-    return posts.find((post) => post.slug === slug);
-}
+export const getPostBySlug = cacheFn(async (slug: string) => {
+    return database.post.findUnique({
+        where: { slug },
+        include: { category: true, author: true },
+    });
+}, 'post-by-slug');
 
-export function getRecommendPosts(category: string, excludeId: string): PostType[] {
-    const available = posts.filter((post) => post.id !== excludeId);
+export const getRecommendPosts = cacheFn(async (categorySlug: string, excludeId: string) => {
+    const sameCategory = await database.post.findMany({
+        where: {
+            category: { slug: categorySlug },
+            NOT: { id: excludeId },
+        },
+        include: { category: true, author: true },
+        take: 2,
+    });
 
-    const sameCategory = available.filter((post) => post.category.slug === category);
-    if (sameCategory.length >= 2) {
-        return sameCategory.slice(0, 2);
-    }
+    if (sameCategory.length >= 2) return sameCategory;
 
-    const shuffled = [...available].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, 2);
-}
+    return database.post.findMany({
+        where: { id: { not: excludeId } },
+        include: { category: true, author: true },
+        orderBy: { createdAt: 'desc' },
+        take: 2,
+    });
+}, 'recommend-posts');
 
-export function getSamplePostsByCategories(): { category: CategoryType; posts: PostType[] }[] {
-    const grouped: Record<string, PostType[]> = {};
-    const categories: Record<string, CategoryType> = {};
+export const getSamplePostsByCategories = cacheFn(async () => {
+    const categories = await database.category.findMany();
 
-    for (const post of posts) {
-        const { category } = post;
+    const results = await Promise.all(
+        categories.map(async (category) => {
+            const posts = await database.post.findMany({
+                where: { categoryId: category.id },
+                orderBy: { createdAt: 'desc' },
+                take: 3,
+                include: { category: true, author: true },
+            });
 
-        if (!grouped[category.name]) {
-            grouped[category.name] = [];
-            categories[category.name] = category;
-        }
+            return { category, posts };
+        })
+    );
 
-        if (grouped[category.name].length < 3) {
-            grouped[category.name].push(post);
-        }
-    }
+    return results.filter((group) => group.posts.length > 0);
+}, 'sample-posts');
 
-    return Object.entries(grouped).map(([categoryName, posts]) => ({
-        category: categories[categoryName],
-        posts,
-    }));
-}
+export const getAllPostsByCategories = cacheFn(async (categorySlug: string) => {
+    return database.post.findMany({
+        where: { category: { slug: categorySlug } },
+        orderBy: { createdAt: 'desc' },
+        include: { category: true, author: true },
+    });
+}, 'posts-by-category');
 
-export function getAllPostsByCategories(category: string) {
-    return posts.filter((post) => post.category.slug == category);
-}
+export const getAllAuthors = cacheFn(async () => {
+    return database.author.findMany();
+}, 'all-authors');
 
-export function getAllAuthors() {
-    return authors;
-}
+export const getAdminData = cacheFn(async () => {
+    return {
+        authors: await database.author.findMany(),
+        categories: await database.category.findMany(),
+        posts: await database.post.findMany({ include: { category: true, author: true } }),
+    };
+}, 'admin-data');

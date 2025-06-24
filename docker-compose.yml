@@ -1,0 +1,15 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: techverseadmin
+      POSTGRES_PASSWORD: 8tNv5J6A7g5U921084ASDJBplF0omFn
+      POSTGRES_DB: rootDatabase
+    ports:
+      - '5432:5432'
+    command: postgres -c log_min_messages=warning
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

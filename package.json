@@ -7,10 +7,12 @@
         "dev": "next dev --turbopack",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "postinstall": "npx prisma generate && npx prisma migrate deploy"
     },
     "dependencies": {
         "@faker-js/faker": "^9.8.0",
+        "@prisma/client": "^6.10.1",
         "jsonwebtoken": "^9.0.2",
         "lucide-react": "^0.519.0",
         "next": "15.3.4",
@@ -24,8 +26,10 @@
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-dom": "^19",
+        "dotenv": "^16.5.0",
         "eslint": "9.29.0",
         "eslint-config-next": "15.3.4",
+        "prisma": "^6.10.1",
         "tailwindcss": "^4",
         "tsx": "^4.20.3",
         "typescript": "^5"

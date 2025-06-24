@@ -6,7 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function Home() {
-    const posts = getHomePosts();
+    const posts = await getHomePosts();
 
     return (
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">

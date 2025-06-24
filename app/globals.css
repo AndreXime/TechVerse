@@ -104,7 +104,7 @@ body {
     background-size: 1em;
 }
 
-/* Efeito de "glitch" no texto 404 */
+/* ESTILOS PARA A PAGINA 404 */
 .glitch {
     position: relative;
     font-size: 10rem;
@@ -181,11 +181,20 @@ body {
     }
 }
 
-/* Estilos do painel */
+/* TERMINA ESTILOS PARA A PAGINA 404 */
+
+/* ESTILOS PARA A DASHBOARD ADMIN */
+
 .admin-panel-grid {
     display: grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 1fr;
     min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+    .admin-panel-grid {
+        grid-template-columns: 260px 1fr;
+    }
 }
 .sidebar {
     background-color: var(--secondary-color);

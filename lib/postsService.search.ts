@@ -1,64 +1,114 @@
-import { PaginationResponse } from '@/types/functionTypes';
-import { authors, categories, posts } from './database/sampleDatabase';
+import database, { Prisma } from './database';
 
 export type FilterOptions = {
-    inputSimple?: string;
-    title?: string;
-    author?: string;
-    category?: string;
-    dateFrom?: Date;
-    dateTo?: Date;
+	inputSimple?: string;
+	title?: string;
+	author?: string;
+	category?: string;
+	dateFrom?: Date;
+	dateTo?: Date;
 };
+
+export interface PaginationResponse {
+	posts: PostType[];
+	total: number;
+	options: {
+		authors: AuthorType[];
+		categories: CategoryType[];
+	};
+}
 
 type ModeOptions = 'simple' | 'structured';
 
-export function searchPosts(mode: ModeOptions = 'structured', options: FilterOptions = {}): PaginationResponse {
-    // Filtro geral
-    let filtered = posts;
+export async function searchPosts(
+	mode: ModeOptions = 'structured',
+	options: FilterOptions = {}
+): Promise<PaginationResponse> {
+	const { inputSimple, title, author, category, dateFrom, dateTo } = options;
 
-    if (mode === 'simple' && options.inputSimple) {
-        const term = options.inputSimple.toLowerCase();
-        filtered = filtered.filter(
-            (post) =>
-                post.title.toLowerCase().includes(term) ||
-                post.description.toLowerCase().includes(term) ||
-                post.category.name.toLowerCase().includes(term)
-        );
-    }
+	const where: Prisma.PostWhereInput = {};
 
-    const { title, author, category, dateFrom, dateTo } = options;
+	if (mode === 'simple' && inputSimple) {
+		const term = inputSimple.toLowerCase();
 
-    if (title) {
-        const lower = title.toLowerCase();
-        filtered = filtered.filter((p) => p.title.toLowerCase().includes(lower));
-    }
+		where.OR = [
+			{
+				title: {
+					contains: term,
+					mode: 'insensitive',
+				},
+			},
+			{
+				description: {
+					contains: term,
+					mode: 'insensitive',
+				},
+			},
+			{
+				category: {
+					name: {
+						contains: term,
+						mode: 'insensitive',
+					},
+				},
+			},
+		];
+	}
 
-    if (author) {
-        const lower = author.toLowerCase();
-        filtered = filtered.filter((p) => p.author.name.toLowerCase().includes(lower));
-    }
+	if (mode === 'structured') {
+		if (title) {
+			where.title = {
+				contains: title,
+				mode: 'insensitive',
+			};
+		}
 
-    if (category) {
-        const lower = category.toLowerCase();
-        filtered = filtered.filter((p) => p.category.slug.toLowerCase() === lower);
-    }
+		if (author) {
+			where.author = {
+				name: {
+					contains: author,
+					mode: 'insensitive',
+				},
+			};
+		}
 
-    if (dateFrom) {
-        filtered = filtered.filter((p) => p.createdAt >= dateFrom);
-    }
+		if (category) {
+			where.category = {
+				slug: {
+					equals: category.toLowerCase(),
+				},
+			};
+		}
 
-    if (dateTo) {
-        filtered = filtered.filter((p) => p.createdAt <= dateTo);
-    }
+		if (dateFrom || dateTo) {
+			where.createdAt = {};
+			if (dateFrom) where.createdAt.gte = dateFrom;
+			if (dateTo) where.createdAt.lte = dateTo;
+		}
+	}
 
-    const total = filtered.length;
+	const [posts, total, authors, categories] = await Promise.all([
+		database.post.findMany({
+			where,
+			include: {
+				category: true,
+				author: true,
+			},
+			orderBy: {
+				createdAt: 'desc',
+			},
+		}),
+		database.post.count({ where }),
+		database.author.findMany(),
+		database.category.findMany(),
+	]);
 
-    return {
-        posts: filtered,
-        total,
-        options: {
-            authors,
-            categories,
-        },
-    };
+	return {
+		posts,
+		total,
+		options: {
+			authors,
+			categories,
+		},
+	};
 }

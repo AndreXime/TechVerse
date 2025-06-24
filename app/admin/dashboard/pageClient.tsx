@@ -4,7 +4,7 @@ import AllPosts from '@/components/admin/AllPosts';
 import Authors from '@/components/admin/Authors';
 import Categories from '@/components/admin/Categories';
 import { LogoutAdmin } from '@/lib/admin/actions/authAdmin';
-import { File, Folder, LogOutIcon, PlusCircle, Users } from 'lucide-react';
+import { File, Folder, LogOutIcon, Menu, PlusCircle, Users, X } from 'lucide-react';
 import { useState } from 'react';
 
 const navButtons = [
@@ -32,6 +32,7 @@ const navButtons = [
 
 export default function DashboardServer() {
     const [Tab, setTab] = useState('AddPosts');
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const ActiveTab = (() => {
         switch (Tab) {
@@ -48,7 +49,23 @@ export default function DashboardServer() {
 
     return (
         <div className="admin-panel-grid">
-            <aside className="sidebar flex flex-col p-6 border-r border-cyan-400/20">
+            <button
+                onClick={() => setMenuOpen(!menuOpen)}
+                className="md:hidden p-4 fixed top-3 right-3 z-20 text-pink-400 bg-pink-500/10 rounded-full"
+                aria-label="Toggle menu"
+            >
+                {menuOpen ? <X size={30} /> : <Menu size={30} />}
+            </button>
+
+            <aside
+                className={
+                    'sidebar flex flex-col p-6 border-r border-cyan-400/20 ' +
+                    'fixed inset-y-0 left-0 z-10 ' +
+                    'bg-gray-900 transform transition-transform duration-200 ' +
+                    (menuOpen ? 'translate-x-0 ' : '-translate-x-full ') +
+                    'md:translate-x-0 md:static md:flex w-64'
+                }
+            >
                 <header className="text-center mb-12">
                     <h1 className="text-3xl font-bold font-chakra text-white tracking-widest">TechVerse</h1>
                     <p className="font-chakra text-cyan-400 text-glow-cyan text-sm">PAINEL DE CONTROLE</p>

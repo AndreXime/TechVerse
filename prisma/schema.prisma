@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DATABASE_DIRECT")
+}
+
+model Post {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  content     String
+  tags        String[] // array de strings
+  slug        String   @unique
+  imageUrl    String
+
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  authorId    String
+  author      Author   @relation(fields: [authorId], references: [id])
+}
+
+model Category {
+  id    String  @id @default(uuid())
+  name  String
+  slug  String  @unique
+  posts Post[]
+}
+
+model Author {
+  id             String  @id @default(uuid())
+  name           String  @unique
+  imageUrl       String
+  description    String
+  jobRole        String
+  linkedin       String
+  github         String
+  genericSocial  String
+  posts          Post[]
+}
