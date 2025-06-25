@@ -13,7 +13,7 @@ export function cacheFn<Args extends unknown[], Return>(
         const key = `${baseKey}:${serializeArgs(args)}`;
 
         const cached = unstable_cache(() => fn(...args), [key], {
-            revalidate: false,
+            revalidate: 1,
             tags: [baseKey],
         });
         return cached();

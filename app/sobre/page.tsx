@@ -6,78 +6,70 @@ import { getAllAuthors } from '@/lib/postsService';
 import { FaGithub, FaGlobe, FaLinkedinIn } from 'react-icons/fa';
 
 export default async function SobrePage() {
-	const authors = await getAllAuthors();
+    const authors = await getAllAuthors();
 
-	return (
-		<div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-			<Navbar />
+    return (
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <Navbar />
 
-			<main className="max-w-5xl mx-auto">
-				<header className="text-center mb-16">
-					<h1 className="text-4xl md:text-5xl font-bold font-chakra text-white">
-						<span className="text-cyan-400 text-glow-cyan font-normal text-2xl block tracking-widest">
-							// NOSSA MISSÃO
-						</span>
-						CONECTANDO VOCÊ AO FUTURO
-					</h1>
-					<p className="max-w-3xl mx-auto text-lg mt-6">
-						O TechVerse nasceu da paixão pela tecnologia e da fascinação pelo futuro que ela promete. Somos um coletivo
-						de entusiastas, analistas e sonhadores que exploram as profundezas do hardware, a evolução da cultura
-						digital e a estética cyberpunk que inspira uma nova geração. Nossa missão é ser o seu terminal de acesso às
-						últimas notícias, análises e tendências que estão definindo o amanhã.
-					</p>
-				</header>
+            <main className="max-w-5xl mx-auto">
+                <header className="text-center mb-16">
+                    <h1 className="text-4xl md:text-5xl font-bold font-chakra text-white">
+                        <span className="text-cyan-400 text-glow-cyan font-normal text-2xl block tracking-widest">
+                            // NOSSA MISSÃO
+                        </span>
+                        CONECTANDO VOCÊ AO FUTURO
+                    </h1>
+                    <p className="max-w-3xl mx-auto text-lg mt-6">
+                        O TechVerse nasceu da paixão pela tecnologia e da fascinação pelo futuro que ela promete. Somos
+                        um coletivo de entusiastas, analistas e sonhadores que exploram as profundezas do hardware, a
+                        evolução da cultura digital e a estética cyberpunk que inspira uma nova geração. Nossa missão é
+                        ser o seu terminal de acesso às últimas notícias, análises e tendências que estão definindo o
+                        amanhã.
+                    </p>
+                </header>
 
-				<section>
-					<h2 className="font-chakra text-3xl text-center text-white mb-12 tracking-widest">
-						&gt;&gt; CONHEÇA OS OPERADORES
-					</h2>
-					<div className="flex justify-center gap-8">
-						{Object.entries(authors).map(([key, author]) => (
-							<Author
-								key={key}
-								{...author}
-							/>
-						))}
-					</div>
-				</section>
-			</main>
+                <section>
+                    <h2 className="font-chakra text-3xl text-center text-white mb-12 tracking-widest">
+                        &gt;&gt; CONHEÇA OS OPERADORES
+                    </h2>
+                    <div className="flex justify-center gap-8">
+                        {authors.map((author) => (
+                            <Author key={author.name} {...author} />
+                        ))}
+                    </div>
+                </section>
+            </main>
 
-			<Footer />
-		</div>
-	);
+            <Footer />
+        </div>
+    );
 }
 
 function Author(author: AuthorType) {
-	return (
-		<div className="border border-pink-500/30 rounded-lg p-6 text-center glass-effect hover:border-pink-500 transition-all duration-300 hover:-translate-y-2">
-			<Image
-				src={author.imageUrl}
-				alt="Avatar"
-				className="w-28 h-28 rounded-full mx-auto mb-4 border-2 border-pink-500/50"
-				width={800}
-				height={800}
-			/>
-			<h3 className="text-2xl font-bold font-chakra text-white">{author.name}</h3>
-			<p className="font-chakra text-pink-400 text-glow-pink mb-4">{author.jobRole}</p>
-			<p className="text-sm mb-6">{author.description}</p>
-			<div className="flex justify-center gap-4 text-cyan-400 text-xl">
-				<Link
-					href={author.github}
-					className="hover:text-white">
-					<FaGithub />
-				</Link>
-				<Link
-					href={author.linkedin}
-					className="hover:text-white">
-					<FaLinkedinIn />
-				</Link>
-				<Link
-					href={author.genericSocial}
-					className="hover:text-white">
-					<FaGlobe />
-				</Link>
-			</div>
-		</div>
-	);
+    return (
+        <div className="border border-pink-500/30 rounded-lg p-6 text-center glass-effect hover:border-pink-500 transition-all duration-300 hover:-translate-y-2">
+            <Image
+                src={author.imageUrl}
+                alt="Avatar"
+                className="w-28 h-28 rounded-full mx-auto mb-4 border-2 border-pink-500/50"
+                width={800}
+                height={800}
+            />
+            <h3 className="text-2xl font-bold font-chakra text-white">{author.name}</h3>
+            <p className="font-chakra text-pink-400 text-glow-pink mb-4">{author.jobRole}</p>
+            <p className="text-sm mb-6">{author.description}</p>
+            <div className="flex justify-center gap-4 text-cyan-400 text-xl">
+                <Link href={author.github} className="hover:text-white">
+                    <FaGithub />
+                </Link>
+                <Link href={author.linkedin} className="hover:text-white">
+                    <FaLinkedinIn />
+                </Link>
+                <Link href={author.genericSocial} className="hover:text-white">
+                    <FaGlobe />
+                </Link>
+            </div>
+        </div>
+    );
 }

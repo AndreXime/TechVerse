@@ -29,3 +29,10 @@ interface AuthorType {
     github: string;
     genericSocial: string;
 }
+
+interface QueryTypes {
+    searchParams: Promise<{ [key: string]: string | undefined }>;
+}
+interface SlugType {
+    params: Promise<{ slug: string }>;
+}

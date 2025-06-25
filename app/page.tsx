@@ -23,21 +23,27 @@ export default async function Home() {
                     </p>
                 </section>
 
-                <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
-                    <FeaturedPost {...posts[0]} />
-                </section>
+                {posts.length > 0 && (
+                    <>
+                        <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
+                            <FeaturedPost {...posts[0]} />
+                        </section>
 
-                <section>
-                    <h3 className="font-chakra text-2xl text-center text-white mb-12 tracking-widest">
-                        &gt;&gt; ARQUIVOS RECENTES
-                    </h3>
+                        {posts.length > 1 && (
+                            <section>
+                                <h3 className="font-chakra text-2xl text-center text-white mb-12 tracking-widest">
+                                    &gt;&gt; ARQUIVOS RECENTES
+                                </h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {posts.slice(1).map((post) => (
-                            <PreviewPost key={post.id} post={post} colorKey="pink" />
-                        ))}
-                    </div>
-                </section>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                    {posts.slice(1).map((post) => (
+                                        <PreviewPost key={post.id} post={post} colorKey="pink" />
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                    </>
+                )}
             </main>
 
             <Footer />
