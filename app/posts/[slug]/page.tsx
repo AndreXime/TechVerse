@@ -16,7 +16,7 @@ export default async function Page({ params }: SlugType) {
     const recommendPosts = await getRecommendPosts(post.category.slug, post.id);
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <>
             <Navbar />
 
             <main>
@@ -37,7 +37,7 @@ export default async function Page({ params }: SlugType) {
             </main>
 
             <Footer />
-        </div>
+        </>
     );
 }
 

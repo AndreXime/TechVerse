@@ -9,13 +9,13 @@ export default async function CategoriesPage() {
     const postsByCategories = await getSamplePostsByCategories();
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <>
             <Navbar />
 
             <main>
                 <header className="text-center mb-20">
                     <h1 className="text-4xl md:text-5xl font-bold font-chakra text-white tracking-widest">
-                        ARQUIVOS DE ARTIGOS
+                        ARQUIVOS DE CATEGORIAS
                     </h1>
                 </header>
 
@@ -27,10 +27,15 @@ export default async function CategoriesPage() {
                         color={colorsKeys[index % colorsKeys.length]}
                     />
                 ))}
+                {postsByCategories.length == 0 && (
+                    <div className="text-glow-purple text-purple-500 text-xl text-center font-bold">
+                        Nenhuma categoria foi criada no momento. Aguarde para atualizações.
+                    </div>
+                )}
             </main>
 
             <Footer />
-        </div>
+        </>
     );
 }
 

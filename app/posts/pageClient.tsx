@@ -31,7 +31,7 @@ export default function PostsPageClient({ posts, total, options }: PaginationRes
     }
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <>
             <Navbar />
 
             <main>
@@ -107,9 +107,14 @@ export default function PostsPageClient({ posts, total, options }: PaginationRes
                         <PreviewPost key={post.id} post={post} colorKey={colorsKeys[index % colorsKeys.length]} />
                     ))}
                 </div>
+                {posts.length == 0 && (
+                    <div className="text-glow-red text-red-500 text-xl text-center py-20">
+                        Não foi possivel encontrar nenhum post.
+                    </div>
+                )}
             </main>
 
             <Footer />
-        </div>
+        </>
     );
 }

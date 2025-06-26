@@ -9,7 +9,7 @@ export default async function SobrePage() {
     const authors = await getAllAuthors();
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <>
             <Navbar />
 
             <main className="max-w-5xl mx-auto">
@@ -37,12 +37,18 @@ export default async function SobrePage() {
                         {authors.map((author) => (
                             <Author key={author.name} {...author} />
                         ))}
+                        {authors.length == 0 && (
+                            <div className="text-glow-cyan text-cyan-500 text-xl text-center font-bold m-6">
+                                Por enquanto não temos nenhum autor no momento. Estamos trabalhando para desenvolver
+                                essa plataforma.
+                            </div>
+                        )}
                     </div>
                 </section>
             </main>
 
             <Footer />
-        </div>
+        </>
     );
 }
 

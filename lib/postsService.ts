@@ -2,7 +2,7 @@ import { cacheFn } from './cacheWrap';
 import database from './database';
 
 export const getHomePosts = cacheFn(async () => {
-    return database.post.findMany({
+    return await database.post.findMany({
         orderBy: { createdAt: 'desc' },
         take: 4,
         include: { category: true, author: true },
@@ -10,7 +10,7 @@ export const getHomePosts = cacheFn(async () => {
 }, 'home-posts');
 
 export const getPostBySlug = cacheFn(async (slug: string) => {
-    return database.post.findUnique({
+    return await database.post.findUnique({
         where: { slug },
         include: { category: true, author: true },
     });
@@ -28,7 +28,7 @@ export const getRecommendPosts = cacheFn(async (categorySlug: string, excludeId:
 
     if (sameCategory.length >= 2) return sameCategory;
 
-    return database.post.findMany({
+    return await database.post.findMany({
         where: { id: { not: excludeId } },
         include: { category: true, author: true },
         orderBy: { createdAt: 'desc' },
@@ -56,7 +56,12 @@ export const getSamplePostsByCategories = cacheFn(async () => {
 }, 'sample-posts');
 
 export const getAllPostsByCategories = cacheFn(async (categorySlug: string) => {
-    return database.post.findMany({
+    if (!(await database.category.findUnique({ where: { slug: categorySlug } }))) {
+        // Não existe
+        return null;
+    }
+
+    return await database.post.findMany({
         where: { category: { slug: categorySlug } },
         orderBy: { createdAt: 'desc' },
         include: { category: true, author: true },
@@ -64,7 +69,7 @@ export const getAllPostsByCategories = cacheFn(async (categorySlug: string) => {
 }, 'posts-by-category');
 
 export const getAllAuthors = cacheFn(async () => {
-    return database.author.findMany();
+    return await database.author.findMany();
 }, 'all-authors');
 
 export const getAdminData = cacheFn(async () => {

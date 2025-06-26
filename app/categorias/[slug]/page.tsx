@@ -3,13 +3,18 @@ import Navbar from '@/components/Navbar';
 import PreviewPost from '@/components/PreviewPost';
 import { colorClasses, colorsKeys } from '@/lib/colors';
 import { getAllPostsByCategories } from '@/lib/postsService';
+import { notFound } from 'next/navigation';
 
 export default async function CategoryPage({ params }: SlugType) {
     const posts = await getAllPostsByCategories((await params).slug);
     const random = Math.floor(Math.random() * 4);
 
+    if (!posts) {
+        notFound();
+    }
+
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <>
             <Navbar />
 
             <main>
@@ -41,6 +46,6 @@ export default async function CategoryPage({ params }: SlugType) {
             </main>
 
             <Footer />
-        </div>
+        </>
     );
 }

@@ -9,7 +9,7 @@ export default async function Home() {
     const posts = await getHomePosts();
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <>
             <Navbar />
 
             <main>
@@ -23,7 +23,7 @@ export default async function Home() {
                     </p>
                 </section>
 
-                {posts.length > 0 && (
+                {posts.length > 0 ? (
                     <>
                         <section className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-24">
                             <FeaturedPost {...posts[0]} />
@@ -43,11 +43,15 @@ export default async function Home() {
                             </section>
                         )}
                     </>
+                ) : (
+                    <div className="text-glow-purple text-purple-500 text-xl text-center">
+                        Nenhum post foi criado no momento. Aguarde para atualizações.
+                    </div>
                 )}
             </main>
 
             <Footer />
-        </div>
+        </>
     );
 }
 
