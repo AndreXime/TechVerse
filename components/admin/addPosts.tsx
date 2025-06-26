@@ -1,13 +1,38 @@
 'use client';
+import { ActionResponse, addPostAction } from '@/lib/admin/actions/addPost';
 import { useAdminData } from '@/lib/admin/admin.context';
+import { useEffect, useRef, useState } from 'react';
+import { useActionState } from 'react';
+import Popup from '../Popup';
 
 export default function AddPosts() {
     const { authors, categories } = useAdminData();
+
+    const initialState: ActionResponse = { success: false, message: '' };
+    const [serverState, formAction] = useActionState(addPostAction, initialState);
+    const [popupData, setPopupData] = useState<ActionResponse | null>(null);
+
+    const formRef = useRef<HTMLFormElement>(null);
+
+    useEffect(() => {
+        if (serverState?.message) {
+            setPopupData(serverState);
+
+            if (serverState.success) {
+                formRef.current?.reset();
+            }
+        }
+    }, [serverState]);
+
+    function onClosePopup() {
+        setPopupData(null);
+    }
+
     return (
         <>
             <h2 className="font-chakra text-4xl text-white mb-8 tracking-wider">Adicionar Nova Transmissão</h2>
 
-            <form className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <form ref={formRef} action={formAction} className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-8">
                     <div className="form-card">
                         <label htmlFor="title" className="block font-chakra text-lg mb-2 text-cyan-300">
@@ -122,6 +147,8 @@ export default function AddPosts() {
                     </div>
                 </div>
             </form>
+
+            <Popup data={popupData} onClose={onClosePopup} />
         </>
     );
 }

@@ -9,12 +9,15 @@ export function cacheFn<Args extends unknown[], Return>(
     baseKey: string
 ): (...args: Args) => Promise<Return> {
     return (...args: Args) => {
-        // Gera um key dinamica com base nos argumentos para gerar cache diferente para cada argumento
+        // A chave única
         const key = `${baseKey}:${serializeArgs(args)}`;
 
+        // Tags dinâmicas: uma genérica e uma específica baseada nos argumentos
+        const tags = [baseKey, ...args.map((arg) => String(arg))]; // Ex: ['post-by-slug', 'meu-post-incrivel']
+
         const cached = unstable_cache(() => fn(...args), [key], {
-            revalidate: 1,
-            tags: [baseKey],
+            revalidate: false,
+            tags: tags,
         });
         return cached();
     };
