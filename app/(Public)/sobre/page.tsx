@@ -4,6 +4,12 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getAllAuthors } from '@/lib/postsService';
 import { FaGithub, FaGlobe, FaLinkedinIn } from 'react-icons/fa';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+    title: 'TechVerse | Sobre nós',
+    description: 'Seu portal de tecnologia com um toque retrofuturista.',
+};
 
 export default async function SobrePage() {
     const authors = await getAllAuthors();

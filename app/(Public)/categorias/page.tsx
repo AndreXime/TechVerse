@@ -4,7 +4,12 @@ import Footer from '@/components/Footer';
 import { getSamplePostsByCategories } from '@/lib/postsService';
 import { colorsKeys, colorClasses } from '@/lib/colors';
 import PreviewPost from '@/components/PreviewPost';
+import type { Metadata } from 'next';
 
+export const metadata: Metadata = {
+    title: 'TechVerse | Todas as categorias',
+    description: 'Seu portal de tecnologia com um toque retrofuturista.',
+};
 export default async function CategoriesPage() {
     const postsByCategories = await getSamplePostsByCategories();
 

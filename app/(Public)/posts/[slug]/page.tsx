@@ -5,6 +5,27 @@ import Footer from '@/components/Footer';
 import { getPostBySlug, getRecommendPosts } from '@/lib/postsService';
 import { notFound } from 'next/navigation';
 import PreviewPost from '@/components/PreviewPost';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: SlugType): Promise<Metadata> {
+    const post = await getPostBySlug((await params).slug);
+
+    if (!post) {
+        return {
+            title: 'Post não encontrado',
+        };
+    }
+
+    return {
+        title: post.title,
+        description: post.description,
+        openGraph: {
+            title: post.title,
+            description: post.description,
+            images: [post.imageUrl],
+        },
+    };
+}
 
 export default async function Page({ params }: SlugType) {
     const post = await getPostBySlug((await params).slug);

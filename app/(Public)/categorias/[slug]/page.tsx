@@ -4,6 +4,26 @@ import PreviewPost from '@/components/PreviewPost';
 import { colorClasses, colorsKeys } from '@/lib/colors';
 import { getAllPostsByCategories } from '@/lib/postsService';
 import { notFound } from 'next/navigation';
+import type { Metadata } from 'next';
+
+export async function generateMetadata({ params }: SlugType): Promise<Metadata> {
+    const post = await getAllPostsByCategories((await params).slug);
+
+    if (!post?.length) {
+        return {
+            title: 'Categoria não encontrada',
+        };
+    }
+
+    return {
+        title: 'Pagina da categoria - ' + post[0].category.name,
+        description: 'Todos os posts relacionado a ' + post[0].category.name,
+        openGraph: {
+            title: 'Pagina da categoria - ' + post[0].category.name,
+            description: 'Todos os posts relacionado a ' + post[0].category.name,
+        },
+    };
+}
 
 export default async function CategoryPage({ params }: SlugType) {
     const posts = await getAllPostsByCategories((await params).slug);

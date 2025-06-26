@@ -13,11 +13,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="pt-BR" className={`${inter} ${chakraPetch}`}>
-            <body className="antialiased min-h-screen">
-                <div className="h-screen container flex flex-col justify-between mx-auto px-4 sm:px-6 md:px-8 py-8">
-                    {children}
-                </div>
-            </body>
+            <body className="antialiased min-h-screen">{children}</body>
         </html>
     );
 }
