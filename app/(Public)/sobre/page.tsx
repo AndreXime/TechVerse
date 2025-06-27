@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getAllAuthors } from '@/lib/postsService';
+import { getAllAuthors } from '@/lib/services/authors';
 import { FaGithub, FaGlobe, FaLinkedinIn } from 'react-icons/fa';
 import type { Metadata } from 'next';
 
@@ -62,7 +62,7 @@ function Author(author: AuthorType) {
     return (
         <div className="border border-pink-500/30 rounded-lg p-6 text-center glass-effect hover:border-pink-500 transition-all duration-300 hover:-translate-y-2">
             <Image
-                src={author.imageUrl}
+                src={author.imageUrl || '#'}
                 alt="Avatar"
                 className="w-28 h-28 rounded-full mx-auto mb-4 border-2 border-pink-500/50"
                 width={800}
@@ -72,15 +72,21 @@ function Author(author: AuthorType) {
             <p className="font-chakra text-pink-400 text-glow-pink mb-4">{author.jobRole}</p>
             <p className="text-sm mb-6">{author.description}</p>
             <div className="flex justify-center gap-4 text-cyan-400 text-xl">
-                <Link href={author.github} className="hover:text-white">
-                    <FaGithub />
-                </Link>
-                <Link href={author.linkedin} className="hover:text-white">
-                    <FaLinkedinIn />
-                </Link>
-                <Link href={author.genericSocial} className="hover:text-white">
-                    <FaGlobe />
-                </Link>
+                {author.github && (
+                    <Link href={author.github} className="hover:text-white">
+                        <FaGithub />
+                    </Link>
+                )}
+                {author.linkedin && (
+                    <Link href={author.linkedin} className="hover:text-white">
+                        <FaLinkedinIn />
+                    </Link>
+                )}
+                {author.genericSocial && (
+                    <Link href={author.genericSocial} className="hover:text-white">
+                        <FaGlobe />
+                    </Link>
+                )}
             </div>
         </div>
     );

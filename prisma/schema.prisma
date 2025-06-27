@@ -15,7 +15,7 @@ model Post {
   description String
   createdAt   DateTime @default(now())
   content     String
-  tags        String[] // array de strings
+  tags        String[]
   slug        String   @unique
   imageUrl    String
 
@@ -36,11 +36,11 @@ model Category {
 model Author {
   id             String  @id @default(uuid())
   name           String  @unique
-  imageUrl       String
+  imageUrl       String?
   description    String
   jobRole        String
-  linkedin       String
-  github         String
-  genericSocial  String
+  linkedin       String?
+  github         String?
+  genericSocial  String?
   posts          Post[]
 }

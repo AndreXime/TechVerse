@@ -1,5 +1,5 @@
 'use client';
-import { useAdminData } from '@/lib/admin/admin.context';
+import { useAdminData } from '@/components/admin/AdminProvider';
 import { Pencil, Trash } from 'lucide-react';
 export default function AllPosts() {
     const { posts } = useAdminData();

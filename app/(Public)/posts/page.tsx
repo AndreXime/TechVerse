@@ -1,4 +1,4 @@
-import { FilterOptions, PaginationResponse, searchPosts } from '@/lib/postsService.search';
+import { FilterOptions, PaginationResponse, searchPosts } from '@/lib/services/posts';
 import PageClient from './pageClient';
 
 import type { Metadata } from 'next';

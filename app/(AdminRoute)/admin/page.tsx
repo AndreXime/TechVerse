@@ -1,4 +1,4 @@
-import { LoginAdmin } from '@/lib/admin/actions/authAdmin';
+import { LoginAdmin } from '@/lib/actions/admin/auth';
 import { Key, User } from 'lucide-react';
 import Link from 'next/link';
 

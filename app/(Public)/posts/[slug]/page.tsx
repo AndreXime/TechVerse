@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getPostBySlug, getRecommendPosts } from '@/lib/postsService';
+import { getPostBySlug, getRecommendPosts } from '@/lib/services/posts';
 import { notFound } from 'next/navigation';
 import PreviewPost from '@/components/PreviewPost';
 import type { Metadata } from 'next';
@@ -110,7 +110,7 @@ function FullPost({ title, tags, category, createdAt, content, imageUrl, author 
                 <Image
                     width={800}
                     height={800}
-                    src={author.imageUrl}
+                    src={author.imageUrl || '#'}
                     alt={'Avatar de ' + author.name}
                     className="w-24 h-24 rounded-full border-2 border-pink-500/50"
                 />

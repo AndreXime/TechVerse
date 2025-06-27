@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getSamplePostsByCategories } from '@/lib/postsService';
+import { getSamplePostsByCategories } from '@/lib/services/categories';
 import { colorsKeys, colorClasses } from '@/lib/colors';
 import PreviewPost from '@/components/PreviewPost';
 import type { Metadata } from 'next';

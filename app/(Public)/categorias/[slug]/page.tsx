@@ -2,7 +2,7 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import PreviewPost from '@/components/PreviewPost';
 import { colorClasses, colorsKeys } from '@/lib/colors';
-import { getAllPostsByCategories } from '@/lib/postsService';
+import { getAllPostsByCategories } from '@/lib/services/categories';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 

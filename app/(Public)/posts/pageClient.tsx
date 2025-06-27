@@ -4,7 +4,7 @@ import Footer from '@/components/Footer';
 import PreviewPost from '@/components/PreviewPost';
 import { useRouter } from 'next/navigation';
 import { colorsKeys } from '@/lib/colors';
-import { PaginationResponse } from '@/lib/postsService.search';
+import type { PaginationResponse } from '@/lib/services/posts';
 
 export default function PostsPageClient({ posts, total, options }: PaginationResponse) {
     const router = useRouter();

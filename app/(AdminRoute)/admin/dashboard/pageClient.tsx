@@ -1,9 +1,9 @@
 'use client';
-import AddPosts from '@/components/admin/addPosts';
+import AddPosts from '@/components/admin/AddPost';
 import AllPosts from '@/components/admin/AllPosts';
 import Authors from '@/components/admin/Authors';
 import Categories from '@/components/admin/Categories';
-import { LogoutAdmin } from '@/lib/admin/actions/authAdmin';
+import { LogoutAdmin } from '@/lib/actions/admin/auth';
 import { File, Folder, LogOutIcon, Menu, PlusCircle, Users, X } from 'lucide-react';
 import { useState } from 'react';
 

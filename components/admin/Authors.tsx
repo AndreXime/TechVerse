@@ -1,5 +1,5 @@
 'use client';
-import { useAdminData } from '@/lib/admin/admin.context';
+import { useAdminData } from '@/components/admin/AdminProvider';
 import { Pencil, Trash } from 'lucide-react';
 import Image from 'next/image';
 
@@ -28,7 +28,7 @@ export default function Authors() {
                                             <Image
                                                 width={800}
                                                 height={800}
-                                                src={author.imageUrl}
+                                                src={author.imageUrl || '#'}
                                                 alt="Avatar"
                                                 className="w-12 h-12 rounded-full object-cover"
                                             />

@@ -1,9 +1,10 @@
 'use client';
-import { useAdminData } from '@/lib/admin/admin.context';
+import { useAdminData } from '@/components/admin/AdminProvider';
 import { Pencil, Trash } from 'lucide-react';
 
 export default function Categories() {
     const { categories } = useAdminData();
+
     return (
         <>
             <h2 className="font-chakra text-4xl text-white mb-8 tracking-wider">Gerenciar Categorias</h2>

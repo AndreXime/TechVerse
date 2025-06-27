@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import PreviewPost from '@/components/PreviewPost';
-import { getHomePosts } from '@/lib/postsService';
+import { getHomePosts } from '@/lib/services/posts';
 import Image from 'next/image';
 import Link from 'next/link';
 
