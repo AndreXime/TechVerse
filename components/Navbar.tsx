@@ -52,9 +52,8 @@ export default function Navbar() {
                         <Link
                             key={href}
                             href={href}
-                            className={`transition-colors duration-300 ${
-                                pathname === href ? 'text-cyan-400 text-glow-cyan' : 'hover:text-cyan-400 text-white'
-                            }`}
+                            className={`transition-colors duration-300 ${pathname === href ? 'text-cyan-400 text-glow-cyan' : 'hover:text-cyan-400 text-white'
+                                }`}
                         >
                             {label}
                         </Link>
@@ -82,9 +81,8 @@ export default function Navbar() {
                     <div className="flex-1" onClick={closeMenu} />
 
                     <div
-                        className={`fixed top-4 left-4 z-50 transition-all duration-300 transform ${
-                            isOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
-                        }`}
+                        className={`fixed top-4 left-4 z-50 transition-all duration-300 transform ${isOpen ? 'translate-x-0 opacity-100' : '-translate-x-full opacity-0'
+                            }`}
                     >
                         <button
                             onClick={closeMenu}
@@ -97,9 +95,8 @@ export default function Navbar() {
 
                     {/* Menu lateral fixo */}
                     <div
-                        className={`w-80 h-full bg-secondary p-6 flex flex-col gap-6 transform transition-transform duration-300 ${
-                            isOpen ? 'translate-x-0' : 'translate-x-full'
-                        }`}
+                        className={`w-80 h-full bg-secondary p-6 flex flex-col gap-6 transform transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'
+                            }`}
                     >
                         <p className="text-cyan-400 text-glow-cyan text-xl font-bold font-chakra text-center">
                             Navegação do site
@@ -111,11 +108,10 @@ export default function Navbar() {
                                     key={href}
                                     href={href}
                                     onClick={closeMenu}
-                                    className={`transition-colors duration-300 text-lg ${
-                                        pathname === href
+                                    className={`transition-colors duration-300 text-lg ${pathname === href
                                             ? 'text-cyan-400 text-glow-cyan'
                                             : 'hover:text-cyan-400 text-white'
-                                    }`}
+                                        }`}
                                 >
                                     {label}
                                 </Link>

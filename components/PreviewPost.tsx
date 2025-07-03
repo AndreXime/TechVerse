@@ -40,9 +40,8 @@ export default function PreviewPost({
                     {post.tags.map((tag) => (
                         <span
                             key={tag}
-                            className={`${
-                                color.bg + ' ' + color.textBtn
-                            } text-xs font-medium px-2.5 py-1 rounded-full}`}
+                            className={`${color.bg + ' ' + color.textBtn
+                                } text-xs font-medium px-2.5 py-1 rounded-full}`}
                         >
                             {tag}
                         </span>

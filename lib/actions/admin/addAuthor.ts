@@ -49,7 +49,6 @@ export async function addAuthorAction(
     try {
         const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
 
-        // 4. Criação do autor no banco de dados
         await database.author.create({
             data: {
                 name: data.name,
@@ -62,8 +61,6 @@ export async function addAuthorAction(
             },
         });
 
-        // 5. Revalidação do Cache
-        // Se você tem uma página que lista todos os autores (ex: /autores), revalide-a.
         revalidatePath('/autores');
 
         return { success: true, message: `Autor "${data.name}" criado com sucesso!` };

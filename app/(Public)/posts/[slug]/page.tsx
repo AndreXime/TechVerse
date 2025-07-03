@@ -75,10 +75,10 @@ interface FullPostProps {
 function FullPost({ title, tags, category, createdAt, content, author, slug }: FullPostProps) {
     const formattedDate = createdAt
         ? new Intl.DateTimeFormat('pt-BR', {
-              day: '2-digit',
-              month: 'long',
-              year: 'numeric',
-          }).format(new Date(createdAt))
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+        }).format(new Date(createdAt))
         : null;
 
     return (

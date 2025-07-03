@@ -5,22 +5,22 @@ import { getAdminData } from '@/lib/services/admin';
 import { verifyAuth } from '@/lib/actions/admin/auth';
 
 export default async function DashboardServer() {
-	try {
-		if (!(await verifyAuth())) {
-			redirect('/admin');
-		}
+    try {
+        if (!(await verifyAuth())) {
+            redirect('/admin');
+        }
 
-		const { authors, categories, posts } = await getAdminData();
+        const { authors, categories, posts } = await getAdminData();
 
-		return (
-			<AdminProvider
-				authorsServer={authors}
-				categoriesServer={categories}
-				postsServer={posts}>
-				<DashboardClient />
-			</AdminProvider>
-		);
-	} catch {
-		redirect('/admin');
-	}
+        return (
+            <AdminProvider
+                authorsServer={authors}
+                categoriesServer={categories}
+                postsServer={posts}>
+                <DashboardClient />
+            </AdminProvider>
+        );
+    } catch {
+        redirect('/admin');
+    }
 }

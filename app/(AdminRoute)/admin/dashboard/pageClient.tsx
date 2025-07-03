@@ -76,11 +76,10 @@ export default function DashboardServer() {
                             <li key={tab}>
                                 <button
                                     onClick={() => setTab(tab)}
-                                    className={`w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors ${
-                                        Tab === tab
+                                    className={`w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors ${Tab === tab
                                             ? 'bg-cyan-500/10 text-cyan-300'
                                             : 'hover:bg-cyan-500/10 hover:text-cyan-300'
-                                    }`}
+                                        }`}
                                 >
                                     <Icon className="w-6 text-center" /> {label}
                                 </button>
