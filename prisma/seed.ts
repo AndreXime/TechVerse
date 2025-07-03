@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { PrismaClient } from './client/client';
+import fs from 'fs';
 
 const prisma = new PrismaClient();
 
@@ -10,7 +11,7 @@ type PostSeedType = {
     slug: string;
     description: string;
     content: string;
-    imageUrl: string;
+    image: Buffer<ArrayBuffer>;
     createdAt: Date;
     tags: string[];
     category: CategorySeedType;
@@ -22,6 +23,9 @@ function generateFakePosts(count: number): {
     categories: CategorySeedType[];
     authors: AuthorSeedType[];
 } {
+    const mockAuthorImage = fs.readFileSync('../public/blank-profile.png');
+    const mockPostImage = fs.readFileSync('../public/placeholder.png');
+
     const categories = [
         { name: 'INTELIGÊNCIA ARTIFICIAL', slug: 'inteligencia-artificial' },
         { name: 'HARDWARE', slug: 'hardware' },
@@ -32,10 +36,10 @@ function generateFakePosts(count: number): {
     const authors: AuthorSeedType[] = [
         {
             name: 'André',
-            imageUrl: 'https://placehold.co/150x150/0d0c1d/ec4899?text=AD',
             description: 'Minha descrição',
             jobRole: 'Desenvolvedor e Fundador do Blog',
             linkedin: '#',
+            image: mockAuthorImage,
             genericSocial: 'andreximenes.xyz',
             github: '#',
         },
@@ -53,7 +57,7 @@ function generateFakePosts(count: number): {
             slug,
             description: faker.lorem.sentence(10),
             content: `<article><p>${faker.lorem.paragraphs(20, '</p><p>')}</p></article>`,
-            imageUrl: `https://placehold.co/600x400/0d0c1d/ec4899?text=${category.name.split(' ')[0]}`,
+            image: mockPostImage,
             createdAt: faker.date.recent({ days: 90 }),
             tags: faker.helpers.arrayElements(tags, { min: 2, max: 4 }),
             category,
@@ -80,7 +84,7 @@ async function main() {
                 description: post.description,
                 content: post.content,
                 tags: post.tags,
-                imageUrl: post.imageUrl,
+                image: post.image,
                 createdAt: post.createdAt,
                 author: {
                     connect: {

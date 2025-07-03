@@ -2,7 +2,13 @@ import cacheFn from '../cacheWrapper';
 import database from '../database';
 
 export const getSamplePostsByCategories = cacheFn(async () => {
-    const categories = await database.category.findMany();
+    const categories = await database.category.findMany({
+        select: {
+            id: true,
+            slug: true,
+            name: true,
+        },
+    });
 
     const results = await Promise.all(
         categories.map(async (category) => {
@@ -10,7 +16,13 @@ export const getSamplePostsByCategories = cacheFn(async () => {
                 where: { categoryId: category.id },
                 orderBy: { createdAt: 'desc' },
                 take: 3,
-                include: { category: true, author: true },
+                select: {
+                    slug: true,
+                    title: true,
+                    description: true,
+                    tags: true,
+                    category: { select: { name: true } },
+                },
             });
 
             return { category, posts };

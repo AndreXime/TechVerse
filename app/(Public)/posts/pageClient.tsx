@@ -104,7 +104,7 @@ export default function PostsPageClient({ posts, total, options }: PaginationRes
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {posts.map((post, index) => (
-                        <PreviewPost key={post.id} post={post} colorKey={colorsKeys[index % colorsKeys.length]} />
+                        <PreviewPost key={post.title} post={post} colorKey={colorsKeys[index % colorsKeys.length]} />
                     ))}
                 </div>
                 {posts.length == 0 && (

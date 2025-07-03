@@ -8,6 +8,7 @@ const chakraPetch = Chakra_Petch({ subsets: ['latin'], weight: ['400', '700'] })
 export const metadata: Metadata = {
     title: 'TechVerse | Modern Retro',
     description: 'Seu portal de tecnologia com um toque retrofuturista.',
+    metadataBase: new URL('https://techverse.andreximenes.xyz'),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

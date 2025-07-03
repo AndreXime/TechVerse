@@ -3,7 +3,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { getSamplePostsByCategories } from '@/lib/services/categories';
 import { colorsKeys, colorClasses } from '@/lib/colors';
-import PreviewPost from '@/components/PreviewPost';
+import PreviewPost, { PreviewPostProps } from '@/components/PreviewPost';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -44,15 +44,13 @@ export default async function CategoriesPage() {
     );
 }
 
-function CategoryPosts({
-    category,
-    posts,
-    color,
-}: {
-    category: CategoryType;
-    posts: PostType[];
+interface CategoryPostsProps {
+    category: { name: string; slug: string };
+    posts: PreviewPostProps[];
     color: keyof typeof colorClasses;
-}) {
+}
+
+function CategoryPosts({ category, posts, color }: CategoryPostsProps) {
     const c = colorClasses[color];
     return (
         <section className="mb-20">
@@ -67,7 +65,7 @@ function CategoryPosts({
             </header>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map((post) => (
-                    <PreviewPost key={post.id} colorKey={color} post={post} />
+                    <PreviewPost key={post.title} colorKey={color} post={post} />
                 ))}
             </div>
         </section>

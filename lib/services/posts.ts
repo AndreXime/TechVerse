@@ -5,14 +5,44 @@ export const getHomePosts = cacheFn(async () => {
     return await database.post.findMany({
         orderBy: { createdAt: 'desc' },
         take: 4,
-        include: { category: true, author: true },
+        select: {
+            title: true,
+            slug: true,
+            description: true,
+            tags: true,
+            category: {
+                select: {
+                    name: true,
+                },
+            },
+        },
     });
 }, 'home-posts');
 
 export const getPostBySlug = cacheFn(async (slug: string) => {
     return await database.post.findUnique({
         where: { slug },
-        include: { category: true, author: true },
+        select: {
+            id: true,
+            title: true,
+            content: true,
+            slug: true,
+            description: true,
+            tags: true,
+            createdAt: true,
+            author: {
+                select: {
+                    name: true,
+                    description: true,
+                },
+            },
+            category: {
+                select: {
+                    name: true,
+                    slug: true,
+                },
+            },
+        },
     });
 }, 'post-by-slug');
 
@@ -22,24 +52,41 @@ export const getRecommendPosts = cacheFn(async (categorySlug: string, excludeId:
             category: { slug: categorySlug },
             NOT: { id: excludeId },
         },
-        include: { category: true, author: true },
         take: 2,
+        select: {
+            title: true,
+            slug: true,
+            description: true,
+            tags: true,
+            category: {
+                select: {
+                    name: true,
+                },
+            },
+        },
     });
 
     if (sameCategory.length >= 2) return sameCategory;
 
     return await database.post.findMany({
         where: { id: { not: excludeId } },
-        include: { category: true, author: true },
         orderBy: { createdAt: 'desc' },
         take: 2,
+        select: {
+            title: true,
+            slug: true,
+            description: true,
+            tags: true,
+            category: {
+                select: {
+                    name: true,
+                },
+            },
+        },
     });
 }, 'recommend-posts');
 
-export async function searchPosts(
-    mode: ModeOptions = 'structured',
-    options: FilterOptions = {}
-): Promise<PaginationResponse> {
+export async function searchPosts(mode: ModeOptions = 'structured', options: FilterOptions = {}) {
     const { inputSimple, title, author, category, dateFrom, dateTo } = options;
 
     const where: PrismaType.PostWhereInput = {};
@@ -106,17 +153,24 @@ export async function searchPosts(
     const [posts, total, authors, categories] = await Promise.all([
         database.post.findMany({
             where,
-            include: {
-                category: true,
-                author: true,
-            },
             orderBy: {
                 createdAt: 'desc',
             },
+            select: {
+                title: true,
+                slug: true,
+                description: true,
+                tags: true,
+                category: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
         }),
         database.post.count({ where }),
-        database.author.findMany(),
-        database.category.findMany(),
+        database.author.findMany({ select: { name: true } }),
+        database.category.findMany({ select: { name: true, slug: true } }),
     ]);
 
     return {
@@ -138,13 +192,6 @@ export type FilterOptions = {
     dateTo?: Date;
 };
 
-export interface PaginationResponse {
-    posts: PostType[];
-    total: number;
-    options: {
-        authors: AuthorType[];
-        categories: CategoryType[];
-    };
-}
+export type PaginationResponse = Awaited<ReturnType<typeof searchPosts>>;
 
 type ModeOptions = 'simple' | 'structured';

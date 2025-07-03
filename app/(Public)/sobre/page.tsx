@@ -58,11 +58,20 @@ export default async function SobrePage() {
     );
 }
 
-function Author(author: AuthorType) {
+interface AuthorProps {
+    name: string;
+    jobRole: string;
+    description: string;
+    github: string | null;
+    linkedin: string | null;
+    genericSocial: string | null;
+}
+
+function Author(author: AuthorProps) {
     return (
         <div className="border border-pink-500/30 rounded-lg p-6 text-center glass-effect hover:border-pink-500 transition-all duration-300 hover:-translate-y-2">
             <Image
-                src={author.imageUrl || '#'}
+                src={`/api/imageAutor/${author.name}`}
                 alt="Avatar"
                 className="w-28 h-28 rounded-full mx-auto mb-4 border-2 border-pink-500/50"
                 width={800}
