@@ -27,7 +27,9 @@ export default function Popup({ data, onClose }: PopupProps) {
     const resultClass = data.success ? 'bg-green-500/90 border-green-300' : 'bg-red-500/90 border-red-300';
 
     return (
-        <div className={`fixed bottom-4 right-4 p-4 rounded-2xl shadow-lg text-white transition-all ${resultClass}`}>
+        <div
+            className={`fixed w-[600px] bottom-4 right-4 p-4 rounded-2xl shadow-lg text-white transition-all ${resultClass}`}
+        >
             <div className="flex items-center justify-between flex-col gap-4">
                 <strong>{data.message}</strong>
                 {data.errors &&
@@ -40,11 +42,6 @@ export default function Popup({ data, onClose }: PopupProps) {
                             </ul>
                         </div>
                     ))}
-                <button
-                    onClick={onClose}
-                    className="text-white font-bold text-lg">
-                    &times;
-                </button>
             </div>
         </div>
     );

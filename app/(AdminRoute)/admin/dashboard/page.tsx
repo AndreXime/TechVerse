@@ -7,7 +7,7 @@ import { verifyAuth } from '@/lib/actions/admin/auth';
 export default async function DashboardServer() {
     try {
         if (!(await verifyAuth())) {
-            redirect('/admin');
+            redirect('/admin?error=2');
         }
 
         const { authors, categories, posts } = await getAdminData();
@@ -21,6 +21,6 @@ export default async function DashboardServer() {
             </AdminProvider>
         );
     } catch {
-        redirect('/admin');
+        redirect('/admin?error=3');
     }
 }

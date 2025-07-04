@@ -1,11 +1,13 @@
 'use client';
-import AddPosts from '@/components/admin/AddPost';
+import AddPosts from '@/components/admin/FormAddPost';
 import AllPosts from '@/components/admin/AllPosts';
-import Authors from '@/components/admin/Authors';
-import Categories from '@/components/admin/Categories';
+import Authors from '@/components/admin/FormAuthors';
+import Categories from '@/components/admin/FormCategories';
 import { LogoutAdmin } from '@/lib/actions/admin/auth';
 import { File, Folder, LogOutIcon, Menu, PlusCircle, Users, X } from 'lucide-react';
 import { useState } from 'react';
+import { useAdminData } from '@/components/admin/AdminProvider';
+import UpdatesForms from '@/components/admin/UpdateForms';
 
 const navButtons = [
     {
@@ -31,7 +33,7 @@ const navButtons = [
 ];
 
 export default function DashboardServer() {
-    const [Tab, setTab] = useState('AddPosts');
+    const { Tab, setTab } = useAdminData();
     const [menuOpen, setMenuOpen] = useState(false);
 
     const ActiveTab = (() => {
@@ -42,6 +44,10 @@ export default function DashboardServer() {
                 return <Authors />;
             case 'Categories':
                 return <Categories />;
+            case 'UpdateAuthor':
+            case 'UpdatePost':
+            case 'UpdateCategory':
+                return <UpdatesForms />;
             default:
                 return <AddPosts />;
         }
@@ -76,10 +82,11 @@ export default function DashboardServer() {
                             <li key={tab}>
                                 <button
                                     onClick={() => setTab(tab)}
-                                    className={`w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors ${Tab === tab
+                                    className={`w-full flex items-center gap-3 font-chakra text-lg px-4 py-2 rounded-md transition-colors ${
+                                        Tab === tab
                                             ? 'bg-cyan-500/10 text-cyan-300'
                                             : 'hover:bg-cyan-500/10 hover:text-cyan-300'
-                                        }`}
+                                    }`}
                                 >
                                     <Icon className="w-6 text-center" /> {label}
                                 </button>

@@ -222,7 +222,7 @@ body {
 
 /* Estilos da tabela */
 .table-wrapper {
-    @apply bg-secondary border border-cyan-400/20 rounded-lg overflow-hidden;
+    @apply bg-secondary border border-cyan-400/20 rounded-lg;
 }
 .admin-table th {
     @apply p-4 font-chakra text-left text-cyan-300 tracking-wider border-b-2 border-cyan-400/30;

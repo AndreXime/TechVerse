@@ -61,6 +61,16 @@ export default async function AdminPage({ searchParams }: QueryTypes) {
                             O email ou senha estão incorretos
                         </div>
                     )}
+                    {erro == '2' && (
+                        <div className="mt-10 flex justify-center text-red-500 text-glow-red font-bold text-lg">
+                            Você precisa estar autenticado para entrar
+                        </div>
+                    )}
+                    {erro == '3' && (
+                        <div className="mt-10 flex justify-center text-red-500 text-glow-red font-bold text-lg">
+                            Erro interno no servidor
+                        </div>
+                    )}
                 </main>
 
                 <footer className="text-center mt-8">

@@ -1,14 +1,6 @@
 'use client';
-import { createContext, useContext, useState, ReactNode, Dispatch, SetStateAction } from 'react';
-
-interface AdminContextType {
-    posts: PostType[];
-    authors: AuthorType[];
-    categories: CategoryType[];
-    setPosts: Dispatch<SetStateAction<PostType[]>>;
-    setAuthors: Dispatch<SetStateAction<AuthorType[]>>;
-    setCategories: Dispatch<SetStateAction<CategoryType[]>>;
-}
+import { createContext, useContext, useState, ReactNode } from 'react';
+import { AdminContextType, AuthorsAdmin, PostsAdmin, CategoryAdmin } from '@/types/adminProviderTypes';
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
@@ -19,16 +11,31 @@ export function AdminProvider({
     postsServer,
 }: {
     children: ReactNode;
-    authorsServer: AuthorType[];
-    categoriesServer: CategoryType[];
-    postsServer: PostType[];
+    authorsServer: AuthorsAdmin[];
+    categoriesServer: CategoryAdmin[];
+    postsServer: PostsAdmin[];
 }) {
-    const [posts, setPosts] = useState<PostType[]>(postsServer);
-    const [authors, setAuthors] = useState<AuthorType[]>(authorsServer);
-    const [categories, setCategories] = useState<CategoryType[]>(categoriesServer);
+    const [posts, setPosts] = useState<PostsAdmin[]>(postsServer);
+    const [authors, setAuthors] = useState<AuthorsAdmin[]>(authorsServer);
+    const [categories, setCategories] = useState<CategoryAdmin[]>(categoriesServer);
+    const [Tab, setTab] = useState('AddPosts');
+    const [EditingData, setEditingData] = useState<PostsAdmin | AuthorsAdmin | CategoryAdmin | null>(null);
 
     return (
-        <AdminContext.Provider value={{ posts, authors, categories, setPosts, setCategories, setAuthors }}>
+        <AdminContext.Provider
+            value={{
+                EditingData,
+                setEditingData,
+                Tab,
+                setTab,
+                posts,
+                authors,
+                categories,
+                setPosts,
+                setCategories,
+                setAuthors,
+            }}
+        >
             {children}
         </AdminContext.Provider>
     );
