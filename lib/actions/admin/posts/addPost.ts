@@ -1,15 +1,17 @@
 'use server';
 
 import { z } from 'zod';
-import { revalidatePostCache } from '../revalidateCache';
-import database, { PrismaType } from '../../database';
-import { verifyAuth } from './auth';
+import { revalidatePostCache } from '../../revalidateCache';
+import database, { PrismaType } from '../../../database';
+import { verifyAuth } from '../auth';
+import { PostsAdmin } from '@/types/adminProviderTypes';
+import { processImage } from '@/lib/processImage';
 
 export interface ActionResponse {
     success: boolean;
     message: string;
     errors?: Record<string, string[]>;
-    newSlug?: string;
+    data?: PostsAdmin;
 }
 
 const PostSchema = z.object({
@@ -47,13 +49,12 @@ export async function addPostAction(
     const { title, slug, content, description, authorName, categorySlug } = validatedFields.data;
     const imageFile = formData.get('image') as File;
 
-    if (!imageFile || imageFile.size === 0) {
-        return { success: false, message: 'A imagem de destaque é obrigatória.' };
+    const { imageBuffer, error } = await processImage(imageFile);
+    if (error) {
+        return { success: false, message: error };
     }
 
     try {
-        const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
-
         const [author, category] = await Promise.all([
             database.author.findUnique({ where: { name: authorName } }),
             database.category.findUnique({ where: { slug: categorySlug } }),
@@ -76,13 +77,20 @@ export async function addPostAction(
                 authorId: author.id,
                 categoryId: category.id,
             },
-            include: {
-                category: true,
+            select: {
+                title: true,
+                content: true,
+                slug: true,
+                description: true,
+                tags: true,
+                createdAt: true,
+                category: { select: { name: true, slug: true } },
+                author: { select: { name: true } },
             },
         });
 
         await revalidatePostCache(newPost.slug, newPost.category.slug);
-        return { success: true, message: 'Post criado com sucesso!', newSlug: slug };
+        return { success: true, message: 'Post criado com sucesso!', data: newPost };
     } catch (error) {
         if (error instanceof PrismaType.PrismaClientKnownRequestError && error.code === 'P2002') {
             return { success: false, message: 'Erro: Este "slug" já está em uso. Por favor, escolha outro.' };

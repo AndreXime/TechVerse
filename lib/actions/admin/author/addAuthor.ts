@@ -1,14 +1,16 @@
 'use server';
 
 import { z } from 'zod';
-import database, { PrismaType } from '../../database';
-import { verifyAuth } from './auth';
-import { revalidatePath } from 'next/cache';
+import database, { PrismaType } from '@/lib/database';
+import { verifyAuth } from '../auth';
+import { revalidateAuthorCache } from '../../revalidateCache';
+import type { AuthorsAdmin } from '@/types/adminProviderTypes';
 
 export interface ActionResponse {
     success: boolean;
     message: string;
     errors?: Record<string, string[]>;
+    data?: AuthorsAdmin;
 }
 
 const AuthorSchema = z.object({
@@ -28,7 +30,6 @@ export async function addAuthorAction(
         return { success: false, message: 'Acesso não autorizado.' };
     }
 
-    // 3. Validação dos dados do formulário com o schema Zod
     const validatedFields = AuthorSchema.safeParse(Object.fromEntries(formData.entries()));
 
     if (!validatedFields.success) {
@@ -49,7 +50,7 @@ export async function addAuthorAction(
     try {
         const imageBuffer = Buffer.from(await imageFile.arrayBuffer());
 
-        await database.author.create({
+        const author = await database.author.create({
             data: {
                 name: data.name,
                 jobRole: data.role,
@@ -61,9 +62,9 @@ export async function addAuthorAction(
             },
         });
 
-        revalidatePath('/autores');
+        await revalidateAuthorCache();
 
-        return { success: true, message: `Autor "${data.name}" criado com sucesso!` };
+        return { success: true, message: `Autor "${data.name}" criado com sucesso!`, data: author };
     } catch (error) {
         if (error instanceof PrismaType.PrismaClientKnownRequestError && error.code === 'P2002') {
             return { success: false, message: 'Erro: Já existe um autor com este nome.' };

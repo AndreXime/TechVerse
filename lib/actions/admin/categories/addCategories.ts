@@ -1,14 +1,16 @@
 'use server';
 
 import { z } from 'zod';
-import database, { PrismaType } from '../../database';
-import { verifyAuth } from './auth';
-import { revalidatePath } from 'next/cache';
+import database, { PrismaType } from '@/lib/database';
+import { verifyAuth } from '../auth';
+import { revalidateCategoryCache } from '../../revalidateCache';
+import { CategoryAdmin } from '@/types/adminProviderTypes';
 
 export interface ActionResponse {
     success: boolean;
     message: string;
     errors?: Record<string, string[]>;
+    data?: CategoryAdmin;
 }
 
 const CategorySchema = z.object({
@@ -25,12 +27,10 @@ export async function addCategories(
     prevState: ActionResponse | undefined,
     formData: FormData
 ): Promise<ActionResponse> {
-    // 2. Verificar autenticação
     if (!(await verifyAuth())) {
         return { success: false, message: 'Acesso não autorizado.' };
     }
 
-    // 3. Validar os dados do formulário
     const validatedFields = CategorySchema.safeParse({
         name: formData.get('name'),
         slug: formData.get('slug'),
@@ -47,25 +47,25 @@ export async function addCategories(
     const { name, slug } = validatedFields.data;
 
     try {
-        // 4. Criar a categoria no banco de dados
-        await database.category.create({
+        const category = await database.category.create({
             data: {
                 name,
                 slug,
             },
+            select: {
+                name: true,
+                slug: true,
+            },
         });
 
-        // 5. Revalidar o cache para atualizar a lista na página
-        revalidatePath('/admin/categories'); // Ajuste o caminho se for diferente
+        revalidateCategoryCache();
 
-        return { success: true, message: `Categoria "${name}" criada com sucesso!` };
+        return { success: true, message: `Categoria "${name}" criada com sucesso!`, data: category };
     } catch (error) {
-        // Tratar erro de slug/nome duplicado
         if (error instanceof PrismaType.PrismaClientKnownRequestError && error.code === 'P2002') {
             return { success: false, message: 'Erro: Este "slug" ou "nome" já está em uso.' };
         }
 
-        // Erro genérico
         return { success: false, message: 'Ocorreu um erro inesperado no servidor.' };
     }
 }

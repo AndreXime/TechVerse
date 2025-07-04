@@ -1,13 +1,14 @@
 'use client';
 import { useAdminData } from '@/components/admin/AdminProvider';
-import { ActionResponse, addAuthorAction } from '@/lib/actions/admin/addAuthor';
+import { ActionResponse, addAuthorAction } from '@/lib/actions/admin/author/addAuthor';
 import { Pencil, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { useActionState, useState, useRef, useEffect } from 'react';
 import Popup from '../Popup';
+import { removeAuthor } from '@/lib/actions/admin/author/removeAuthor';
 
 export default function Authors() {
-    const { authors } = useAdminData();
+    const { authors, setAuthors, setEditingData, setTab } = useAdminData();
 
     const initialState: ActionResponse = { success: false, message: '' };
     const [serverState, formAction] = useActionState(addAuthorAction, initialState);
@@ -15,15 +16,29 @@ export default function Authors() {
 
     const formRef = useRef<HTMLFormElement>(null);
 
-    useEffect(() => {
-        if (serverState?.message) {
-            setPopupData(serverState);
+    const [serverRemoveState, formRemoveAction] = useActionState(removeAuthor, initialState);
 
-            if (serverState.success) {
-                formRef.current?.reset();
-            }
-        }
-    }, [serverState]);
+    useEffect(() => {
+        if (!serverRemoveState?.message) return;
+
+        setPopupData(serverRemoveState);
+
+        if (!serverRemoveState.success) return;
+
+        setAuthors((prev) => prev.filter((aut) => aut.name !== serverRemoveState.oldName));
+    }, [serverRemoveState, setAuthors]);
+
+    useEffect(() => {
+        if (!serverState?.message) return;
+
+        setPopupData(serverState);
+
+        if (!serverState.success || !serverState.data) return;
+
+        formRef.current?.reset();
+        const data = serverState.data;
+        setAuthors((prev) => [...prev, data]);
+    }, [serverState, setAuthors]);
 
     function onClosePopup() {
         setPopupData(null);
@@ -35,8 +50,8 @@ export default function Authors() {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
-                    <div className="table-wrapper">
-                        <table className="admin-table w-full">
+                    <div className="w-full overflow-x-auto table-wrapper">
+                        <table className="admin-table w-full min-w-[600px]">
                             <thead>
                                 <tr>
                                     <th className="w-20">Avatar</th>
@@ -61,12 +76,32 @@ export default function Authors() {
                                         <td>{author.jobRole}</td>
                                         <td>
                                             <span className="flex items-center justify-start h-full gap-3">
-                                                <a href="#" className="text-cyan-400 hover:text-white" title="Editar">
+                                                <button
+                                                    onClick={() => {
+                                                        setEditingData(author);
+                                                        setTab('UpdateAuthor');
+                                                    }}
+                                                    className="text-cyan-400 hover:text-white"
+                                                    title="Editar"
+                                                >
                                                     <Pencil />
-                                                </a>
-                                                <a href="#" className="text-pink-400 hover:text-white" title="Excluir">
-                                                    <Trash />
-                                                </a>
+                                                </button>
+                                                <form action={formRemoveAction}>
+                                                    <input
+                                                        type="text"
+                                                        name="name"
+                                                        value={author.name}
+                                                        readOnly
+                                                        className="hidden"
+                                                    />
+                                                    <button
+                                                        type="submit"
+                                                        className="text-pink-400 hover:text-white"
+                                                        title="Excluir"
+                                                    >
+                                                        <Trash />
+                                                    </button>
+                                                </form>
                                             </span>
                                         </td>
                                     </tr>
@@ -123,10 +158,10 @@ export default function Authors() {
                                     URL da Imagem (Avatar)
                                 </label>
                                 <input
-                                    type="text"
+                                    type="file"
                                     id="author-imageUrl"
                                     className="form-input"
-                                    name="imageUrl"
+                                    name="image"
                                     placeholder="https://exemplo.com/avatar.png"
                                 />
                             </div>
